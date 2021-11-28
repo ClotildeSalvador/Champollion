@@ -7,7 +7,7 @@ public class ChampollionJUnitTest {
 	Enseignant untel;
 	UE uml, java;
 		
-	@BeforeEach
+	@BeforeEach 
 	public void setUp() {
 		untel = new Enseignant("untel", "untel@gmail.com");
 		uml = new UE("UML");

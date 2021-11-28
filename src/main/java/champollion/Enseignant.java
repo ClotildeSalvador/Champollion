@@ -1,11 +1,18 @@
 package champollion;
 
+import java.util.ArrayList;
+
 public class Enseignant extends Personne {
 
     // TODO : rajouter les autres méthodes présentes dans le diagramme UML
+	private ArrayList<ServicePrevu> enseignements ;
+	public ArrayList<Intervention> InterventionsPlanifiees ;
+	
 
     public Enseignant(String nom, String email) {
         super(nom, email);
+        this.enseignements= new ArrayList<ServicePrevu>();
+        this.InterventionsPlanifiees=new ArrayList<Intervention>() ;
     }
 
     /**
@@ -18,7 +25,12 @@ public class Enseignant extends Personne {
      */
     public int heuresPrevues() {
         // TODO: Implémenter cette méthode
-        throw new UnsupportedOperationException("Pas encore implémenté");
+    	float r=0 ;
+    	for (ServicePrevu s : enseignements) {
+    		r+=1.5*s.getVolumeCM() + s.getVolumeTD() + 0.75*s.getVolumeTP() ;
+    	}
+    	int total = Math.round(r) ;
+        return total ;
     }
 
     /**
@@ -32,7 +44,14 @@ public class Enseignant extends Personne {
      */
     public int heuresPrevuesPourUE(UE ue) {
         // TODO: Implémenter cette méthode
-        throw new UnsupportedOperationException("Pas encore implémenté");
+    	double r=0 ;
+    	for (ServicePrevu i : enseignements) {
+    		if (i.getUe()==ue) {
+    			r = 1.5*ue.getHeuresCM() + ue.getHeuresTD() + 0.75*ue.getHeuresTP() ;
+    		}
+    	}
+    	int total =  (int) Math.round(r) ;
+    	return total ;
     }
 
     /**
@@ -45,7 +64,26 @@ public class Enseignant extends Personne {
      */
     public void ajouteEnseignement(UE ue, int volumeCM, int volumeTD, int volumeTP) {
         // TODO: Implémenter cette méthode
-        throw new UnsupportedOperationException("Pas encore implémenté");
+    	ServicePrevu s = new ServicePrevu(volumeCM, volumeTP, volumeTP, ue) ;
+    	this.enseignements.add(s) ; 
+    	ue.ajouterIntervenant(this);
+    	ue.setHeuresCM(ue.getHeuresCM()+volumeCM);
+    	ue.setHeuresTD(ue.getHeuresTD()+volumeTD);
+    	ue.setHeuresTP(ue.getHeuresTP()+volumeTP);
+    	
     }
+    
+    public void ajouteIntervention(Intervention i) {
+    	this.InterventionsPlanifiees.add(i) ;
+    	i.setIntervenant(this); 
+    }
+    
+//    public boolean enSousService() {
+//    	
+//    }
+//    
+//    public int resteAPlanifier() {
+//    	
+//    }
 
 }
